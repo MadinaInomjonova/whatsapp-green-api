@@ -1,0 +1,76 @@
+.sidebar {
+    flex: 0.40;
+    border-right: 1px solid lightgray;
+    background-color: #fff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+/* Sidebar Header  */
+.sidebar__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.sidebar__header h3 {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.sidebar__headerRight {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-width: 10vw;
+}
+.sidebar__headerRight .MuiSvgIcon-root {
+    font-size: 20px !important;
+}
+
+/* Sidebar Search  */
+.sidebar__search {
+    display: flex;
+    align-items: center;
+    margin: 0px 20px;
+}
+
+.sidebar__searchContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    border-bottom: 1px solid black;
+}
+
+.sidebar__searchContainer > input {
+    border: none;
+    outline: none;
+    margin-left: 10px;
+    font-size: 16px;
+}
+.sidebar__searchContainer:focus-within {
+    border-bottom: 3px solid #075E54;
+}
+
+.sidebar__searchContainer > .MuiSvgIcon-root {
+    color: gray;
+    padding: 10px;
+    transform: rotate(90deg);
+    font-size: 40px !important;
+}
+
+
+/* Sidebar Chat  */
+.sidebar__chats {
+    margin: 10px 10px 0 10px;
+    flex: 1;
+    max-height: 70vh;
+    overflow: scroll;
+}
+.sidebar__chats::-webkit-scrollbar {
+    display: none;
+}
