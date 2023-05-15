@@ -1,0 +1,132 @@
+.chat {
+    flex: 0.75;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Chat Header  */
+
+.chat__header {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+
+.chat__headerInfo {
+    flex: 1;
+    padding-left: 10px;
+}
+.chat__headerInfo .username {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 3px;
+}
+.chat__headerInfo p {
+    color: gray;
+}
+
+.chat__headerRight {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    min-width: 100px;
+}
+.chat__headerRight .MuiSvgIcon-root {
+    font-size: 20px !important;
+}
+.search__icon .MuiSvgIcon-root  {
+    color: #333;
+    transform: rotate(90deg);
+}
+.search__icon::before {
+    content: '';
+    display: inline-block;
+    height: 20px;
+    border: 1px solid lightgray;
+    margin-right: 15px;
+}
+
+
+/* Chat Body  */ 
+.chat__body {
+    flex: 1;
+    background-image: url("https://mcdn.wallpapersafari.com/medium/27/32/jt4AoG.jpg");
+    background-repeat: repeat;
+    overflow-y: scroll;
+    padding: 30px;
+}
+.chat__body::-webkit-scrollbar {
+    display: none;
+}
+
+.chat__message {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    background-color: #D0E9EA;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+.chat__reciever {
+    margin-left: auto;
+    background-color: #dcf8c6;
+}
+.chat__timestamp {
+    margin-left: 10px;
+    font-size: xx-small;
+    float: right bottom;
+    align-self: flex-end;
+    padding-left: 10px;
+    padding-top: 2px;
+}
+
+/* Chat Footer  */
+
+.chat__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 62px;
+    border-top: 1px solid lightgray;
+    padding: 20px;
+}
+
+.chat__footerIcon {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+} 
+.chat__footerIcon .MuiSvgIcon-root {
+    color: #333;
+    font-size: 22px !important;
+}
+
+.chat__footer form {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.chat__footer form input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    margin-left: 20px;
+    min-width: 100px;
+    max-width: 500px;
+}
+.chat__footer form button {
+    border: none;
+    outline: none;
+    background: #fff;
+}
+.chat__footer form button .MuiSvgIcon-root {
+    font-size: 22px !important;
+    color: #333;
+}

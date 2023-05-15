@@ -2,12 +2,13 @@
     display: flex;
     align-items: center;
     height: 65px;
-    margin-bottom: 5px;
     transition: all .3s ease;
     padding: 10px;
+    border-bottom: 1px solid #f6f6f6;
+    cursor: pointer;
 }
 .sidebar__chat:hover {
-    background-color: #ededed;
+    background-color: #ebebeb;
     border-radius: 5px;
     transition: all .3s ease;
 }
@@ -19,6 +20,6 @@
     font-size: 16px;
 }
 .sidebar__chatInfo p {
-    font-size: 14px;
-    color: darkgray;
+    font-size: 15px;
+    color: gray;
 }
