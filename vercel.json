@@ -1,6 +1,7 @@
 {
   "version": 2,
-  "static": "./node_modules/json-server/public/index.html"
+  "static": "./node_modules/json-server/public/index.html",
+  "rewrites": [{ "source": "/(.*)", "destination": "./public/index.html" }]
   "builds": [
     {
       "src": "index.js",
