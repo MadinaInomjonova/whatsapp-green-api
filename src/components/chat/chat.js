@@ -47,7 +47,7 @@ const Chat = ({ rooms }) => {
         post
       );
 
-      fetch("https://whatsapp-green-api.vercel.app/messages", {
+      fetch("https://whatsapp-clone-green-api.vercel.app/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const Chat = ({ rooms }) => {
           .then((res) => res)
           .catch((err) => console.log(err.message));
 
-        await fetch("https://whatsapp-green-api.vercel.app/messages", {
+        await fetch("https://whatsapp-clone-green-api.vercel.app/messages", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -92,7 +92,7 @@ const Chat = ({ rooms }) => {
   // Get All Messages from json-server
 
   useEffect(() => {
-    fetch("https://whatsapp-green-api.vercel.app/messages")
+    fetch("https://whatsapp-clone-green-api.vercel.app/messages")
       .then((res) => res.json())
       .then((data) => setMessages(data))
       .catch((err) => console.log(err.message));
