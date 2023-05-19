@@ -35,7 +35,7 @@ const App = () => {
   // Getting data from db
 
   useEffect(() => {
-    fetch("https://whatsapp-green-api.vercel.app/rooms")
+    fetch("https://whatsapp-clone-green-api.vercel.app/rooms")
       .then((res) => res.json())
       .then((data) => setRooms(data))
       .catch((err) => console.log(err.message));
@@ -44,7 +44,7 @@ const App = () => {
   // Adding new Chat
 
   const addNewChat = (name, id) => {
-    fetch("https://whatsapp-green-api.vercel.app/rooms", {
+    fetch("https://whatsapp-clone-green-api.vercel.app/rooms", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
