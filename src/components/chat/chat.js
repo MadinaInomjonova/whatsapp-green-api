@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import firebase from "firebase/compat/app";
-
-import db from "../../firebase";
+import axios from "axios";
 
 import { Avatar, IconButton } from "@mui/material";
 import {
@@ -15,44 +13,102 @@ import {
 } from "@mui/icons-material";
 import "./chat.css";
 
-const Chat = ({ user }) => {
-  const [input, setInput] = useState("");
+const Chat = ({ rooms }) => {
   const [seed, setSeed] = useState("");
-  const { roomId } = useParams();
-  const [roomName, setRoomName] = useState("");
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const { roomId } = useParams();
 
-  useEffect(() => {
-    db.collection("rooms")
-      .doc(roomId)
-      .onSnapshot((snapshot) => setRoomName(snapshot.data()?.name));
+  // Get data from localStorage
 
-    db.collection("rooms")
-      .doc(roomId)
-      .collection("message")
-      .orderBy("timestamp", "asc")
-      .onSnapshot((snapshot) =>
-        setMessages(snapshot.docs.map((doc) => doc.data()))
-      );
-  }, [roomId]);
+  const getData = JSON.parse(localStorage.getItem("dataKey"));
 
-  console.log(messages);
+  // Random Avatar image
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
-  }, [roomId]);
+  }, []);
 
-  const sendMessage = (e) => {
+  // Send message using http request
+
+  const sendMessage = async (e) => {
     e.preventDefault();
 
-    db.collection("rooms").doc(roomId).collection("message").add({
+    const post = {
+      chatId: `${roomId}@c.us`,
       message: input,
-      name: user.email,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    };
 
     setInput("");
+
+    try {
+      const res = await axios.post(
+        `https://api.green-api.com/waInstance${getData.id}/SendMessage/${getData.token}`,
+        post
+      );
+
+      fetch("http://localhost:8000/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: res?.config?.data,
+      });
+    } catch (err) {
+      console.log(err.message);
+    }
   };
+
+  // Get received messages
+
+  useEffect(() => {
+    async function getReceivedMessages() {
+      try {
+        const res = await axios
+          .get(
+            `https://api.green-api.com/waInstance${getData.id}/ReceiveNotification/${getData.token}`
+          )
+          .then((res) => res)
+          .catch((err) => console.log(err.message));
+
+        await fetch("http://localhost:8000/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "received",
+            idMessage: res?.data?.body?.idMessage,
+            message: res?.data?.body?.messageData?.textMessageData?.textMessage,
+            chatId: res?.data?.body?.senderData?.chatId,
+            sender: res?.data?.body?.senderData?.chatName,
+          }),
+        }).then((res) => res);
+      } catch (err) {
+        console.log(err.message);
+      }
+    }
+    getReceivedMessages();
+  }, []);
+
+  // Get All Messages from json-server
+
+  useEffect(() => {
+    fetch("http://localhost:8000/messages")
+      .then((res) => res.json())
+      .then((data) => setMessages(data))
+      .catch((err) => console.log(err.message));
+  });
+
+  // Remove Duplicates from messages array
+
+  const result = messages.reduce((accumulator, current) => {
+    let exists = accumulator.find((item) => {
+      return item.idMessage === current.idMessage;
+    });
+    if (!exists) {
+      accumulator = accumulator.concat(current);
+    }
+    return accumulator;
+  }, []);
 
   return (
     <div className="chat">
@@ -60,13 +116,15 @@ const Chat = ({ user }) => {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
 
         <div className="chat__headerInfo">
-          <p className="username">{roomName}</p>
-          <p>
-            Last seen at{" "}
-            {new Date(
-              messages[messages.length - 1]?.timestamp?.toDate()
-            ).toLocaleString()}
-          </p>
+          {rooms?.map((room) => {
+            if (room.id === roomId)
+              return (
+                <p key={room.id} className="username">
+                  {room.name}
+                </p>
+              );
+          })}
+          <p>Last seen at ...</p>
         </div>
 
         <div className="chat__headerRight">
@@ -83,15 +141,21 @@ const Chat = ({ user }) => {
       </div>
 
       <div className="chat__body">
-        {messages.map((message) => (
-          <p
-            className={`chat__message ${
-              message.name === user.email && "chat__reciever"
-            }`}
-          >
-            {message?.message} <span className="chat__timestamp">3:53pm</span>
-          </p>
-        ))}
+        {result?.map((message) => {
+          if (`${roomId}@c.us` === message?.chatId) {
+            return (
+              <p
+                key={message?.id}
+                className={`chat__message ${
+                  !message?.type && "chat__reciever"
+                }`}
+              >
+                {message?.message}{" "}
+                <span className="chat__timestamp">3:53pm</span>
+              </p>
+            );
+          } else return null;
+        })}
       </div>
 
       <div className="chat__footer">
