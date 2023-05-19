@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "static": "./node_modules/json-server/public/index.html"
   "builds": [
     {
       "src": "index.js",
